@@ -49,9 +49,9 @@
                 </div>
                 <!-- User Profile Section -->
                 <div id="user-profile-section" class="relative">
-                    <button id="sign-in-button" class="bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold py-2 px-4 rounded-lg transition-colors flex items-center gap-2">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.317 4.414a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.369-.444.825-.608 1.253a18.23 18.23 0 0 0-5.488 0 11.295 11.295 0 0 0-.608-1.253.074.074 0 0 0-.079-.037A19.79 19.79 0 0 0 3.683 4.414a.074.074 0 0 0-.037.079C3.683 8.35 5.567 11.62 8.448 13.826a.074.074 0 0 0 .088.016c.338-.142.662-.296.972-.458a.074.074 0 0 0 .046-.065 14.23 14.23 0 0 1-.416-2.213.074.074 0 0 1 .046-.088c.15-.059.3-.12.443-.18a.074.074 0 0 1 .065.016c.12.1.239.21.358.318a.074.074 0 0 1 0 .088 12.17 12.17 0 0 0-1.12 3.448.074.074 0 0 0 .026.075c1.432.83 3.033 1.253 4.693 1.253s3.26-.423 4.693-1.253a.074.074 0 0 0 .026-.075 12.17 12.17 0 0 0-1.12-3.448.074.074 0 0 1 0-.088c.12-.1.239-.21.358-.318a.074.074 0 0 1 .065-.016c.15.06.3.12.443-.18a.074.074 0 0 1 .046.088 14.23 14.23 0 0 1-.416 2.213.074.074 0 0 0 .046.065c.31.162.634.316.972.458a.074.074 0 0 0 .088-.016c2.88-2.207 4.765-5.477 4.802-9.333a.074.074 0 0 0-.037-.08zM8.02 10.33a1.493 1.493 0 0 1-1.493-1.493 1.493 1.493 0 1 1 2.986 0 1.493 1.493 0 0 1-1.493 1.493zm7.96 0a1.493 1.493 0 0 1-1.493-1.493 1.493 1.493 0 1 1 2.986 0 1.493 1.493 0 0 1-1.493 1.493z"/></svg>
-                        <span>Sign in with Discord</span>
+                    <button id="sign-in-button" class="bg-white hover:bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-lg shadow-md transition-colors flex items-center gap-2">
+                        <svg class="w-5 h-5" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" xmlns:xlink="http://www.w3.org/1999/xlink" style="display: block;"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path><path fill="none" d="M0 0h48v48H0z"></path></svg>
+                        <span>Sign in with Google</span>
                     </button>
                     <div id="user-avatar" class="hidden items-center gap-2 cursor-pointer">
                         <img id="user-img" src="https://placehold.co/40x40/4338ca/ffffff?text=W" alt="User Avatar" class="w-10 h-10 rounded-full">
@@ -127,7 +127,7 @@
             </div>
             <div class="p-4 border-t border-slate-800">
                 <div id="chat-sign-in-prompt" class="text-center text-sm text-slate-400">
-                    <button class="font-bold text-indigo-400 hover:underline" onclick="document.getElementById('sign-in-button').click()">Sign in with Discord</button> to chat.
+                    Loading chat...
                 </div>
                 <form id="chat-form" class="hidden">
                     <input id="chat-input" type="text" class="w-full bg-slate-800 border border-slate-700 rounded-md p-2 text-white placeholder-slate-500" placeholder="Type a message..." autocomplete="off">
@@ -136,7 +136,118 @@
         </aside>
     </div>
 
-    <script>
+    <!-- Firebase SDKs -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        // IMPORTANT: Replace with your actual config and secure your API key!
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY", // Replace with your actual API key
+            authDomain: "unusual-kalshi.firebaseapp.com",
+            projectId: "unusual-kalshi",
+            storageBucket: "unusual-kalshi.appspot.com",
+            messagingSenderId: "525022106936",
+            appId: "1:525022106936:web:203cad6c77aa7b25059dcd"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+
+        // --- Firebase Authentication ---
+        const googleProvider = new GoogleAuthProvider();
+
+        function handleSignIn() {
+            signInWithPopup(auth, googleProvider)
+                .catch((error) => {
+                    console.error("Google sign-in error:", error);
+                    alert("Failed to sign in with Google. Please try again.");
+                });
+        }
+        
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                if (!user.isAnonymous) {
+                    // User signed in with Google
+                    isLoggedIn = true;
+                    signInButton.classList.add('hidden');
+                    userAvatar.classList.remove('hidden');
+                    userAvatar.classList.add('flex');
+                    document.getElementById('user-name').textContent = user.displayName;
+                    document.getElementById('user-img').src = user.photoURL || `https://placehold.co/40x40/4f46e5/ffffff?text=${user.displayName.charAt(0)}`;
+                    delayMessage.classList.add('hidden');
+                    renderAll();
+                }
+                
+                // Common logic for both anonymous and real users
+                chatSignInPrompt.classList.add('hidden');
+                chatForm.classList.remove('hidden');
+                chatInput.focus();
+                
+                const messagesQuery = query(collection(db, "messages"), orderBy("timestamp"));
+                onSnapshot(messagesQuery, (snapshot) => {
+                    chatMessages.innerHTML = '';
+                    snapshot.forEach((doc) => {
+                        const message = doc.data();
+                        addChatMessage(message.user, message.text, message.uid === currentUser.uid);
+                    });
+                });
+
+            } else {
+                currentUser = null;
+                // If there's no user at all, attempt to sign in anonymously for chat.
+                signInAnonymously(auth).catch((error) => {
+                    console.error("Anonymous sign-in failed:", error);
+                    chatSignInPrompt.textContent = "Chat failed to load.";
+                });
+            }
+        });
+
+        // --- Real-time Chat with Firestore ---
+        function addChatMessage(user, message, isCurrentUser = false) {
+            const messageDiv = document.createElement('div');
+            
+            const displayName = isCurrentUser ? 'You' : (user.displayName || `User...${user.uid.slice(-4)}`);
+            const photoURL = user.photoURL || `https://placehold.co/32x32/475569/ffffff?text=${displayName.charAt(0)}`;
+            const nameColor = isCurrentUser ? 'text-indigo-400' : 'text-green-400';
+            const bgColor = isCurrentUser ? 'bg-indigo-600' : 'bg-slate-700';
+            
+            messageDiv.className = `flex gap-2 items-start ${isCurrentUser ? 'justify-end flex-row-reverse' : ''}`;
+            messageDiv.innerHTML = `<img src="${photoURL}" alt="avatar" class="w-8 h-8 rounded-full"><div class="flex flex-col"><span class="text-sm font-bold ${nameColor}">${displayName}</span><p class="text-sm p-2 rounded-lg ${bgColor}">${message}</p></div>`;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const message = chatInput.value.trim();
+            if (message && currentUser) {
+                try {
+                    await addDoc(collection(db, "messages"), {
+                        text: message,
+                        uid: currentUser.uid,
+                        user: { // Store user info with the message
+                            displayName: currentUser.displayName,
+                            photoURL: currentUser.photoURL,
+                            uid: currentUser.uid
+                        },
+                        timestamp: serverTimestamp()
+                    });
+                    chatInput.value = '';
+                } catch (error) {
+                    console.error("Error sending message: ", error);
+                }
+            }
+        });
+
         // --- Element References ---
         const feedBody = document.getElementById('feed-body');
         const topTradesContainer = document.getElementById('top-trades-container');
@@ -144,10 +255,6 @@
         const premiumFilterInput = document.getElementById('premium-filter');
         const signInButton = document.getElementById('sign-in-button');
         const userAvatar = document.getElementById('user-avatar');
-        const chatSignInPrompt = document.getElementById('chat-sign-in-prompt');
-        const chatForm = document.getElementById('chat-form');
-        const chatInput = document.getElementById('chat-input');
-        const chatMessages = document.getElementById('chat-messages');
         const delayMessage = document.getElementById('delay-message');
         const trendingContainer = document.getElementById('trending-markets-container');
 
@@ -156,43 +263,11 @@
         let delayedTrades = [];
         let isLoggedIn = false;
         const MAX_ROWS = 100;
-        const SIMULATED_DELAY = 5 * 60 * 1000; // 5 minutes in ms
+        const SIMULATED_DELAY = 5 * 60 * 1000;
         const mockTickers = ['INFL-24', 'GAS-4', 'FED-SEP', 'OSCAR-25', 'TSLA-1T', 'SP500-5K', 'COVID-25'];
-
-        // --- User Authentication Simulation ---
-        function handleSignIn() {
-            isLoggedIn = true;
-            signInButton.classList.add('hidden');
-            userAvatar.classList.remove('hidden');
-            userAvatar.classList.add('flex');
-            chatSignInPrompt.classList.add('hidden');
-            chatForm.classList.remove('hidden');
-            delayMessage.classList.add('hidden');
-            chatInput.focus();
-            renderAll(); // Re-render everything with real-time data
-        }
+        
+        // Attach event listener to the sign-in button
         signInButton.addEventListener('click', handleSignIn);
-
-        // --- Chat Simulation ---
-        const mockUsers = [{ name: 'TraderTom', color: 'text-green-400'}, { name: 'KalshiKate', color: 'text-sky-400' }];
-        function addChatMessage(user, message, isCurrentUser = false) {
-            const messageDiv = document.createElement('div');
-            const nameColor = user.color || 'text-slate-300';
-            const bgColor = isCurrentUser ? 'bg-indigo-600' : 'bg-slate-700';
-            const nameDisplay = isCurrentUser ? 'You' : user.name;
-            messageDiv.className = `flex gap-2 items-start ${isCurrentUser ? 'justify-end flex-row-reverse' : ''}`;
-            messageDiv.innerHTML = `<img src="https://placehold.co/32x32/${isCurrentUser ? '5865F2' : '475569'}/ffffff?text=${user.name.charAt(0)}" alt="avatar" class="w-8 h-8 rounded-full"><div class="flex flex-col"><span class="text-sm font-bold ${nameColor}">${nameDisplay}</span><p class="text-sm p-2 rounded-lg ${bgColor}">${message}</p></div>`;
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-        chatForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const message = chatInput.value.trim();
-            if (message) {
-                addChatMessage({ name: 'You', color: 'text-indigo-400' }, message, true);
-                chatInput.value = '';
-            }
-        });
 
         // --- Live Feed Simulation ---
         function generateMockTrade() {
@@ -284,32 +359,31 @@
             populateTickerFilter();
             tickerFilterInput.addEventListener('change', renderAll);
             premiumFilterInput.addEventListener('input', renderAll);
-            addChatMessage(mockUsers[1], "Welcome to the chat! Sign in to participate.");
             
-            // Main trade generation loop
             setInterval(() => {
                 const trade = generateMockTrade();
                 realtimeTrades.unshift(trade);
                 if (realtimeTrades.length > MAX_ROWS) realtimeTrades.pop();
                 
-                // Simulate the delay for non-logged-in users
                 setTimeout(() => {
                     delayedTrades.unshift(trade);
                     if (delayedTrades.length > MAX_ROWS) delayedTrades.pop();
-                    if (!isLoggedIn) { // Only render for delayed feed if user is not logged in
+                    if (!isLoggedIn) {
                          renderAll();
                     }
                 }, SIMULATED_DELAY);
 
-                if (isLoggedIn) { // Render immediately for logged-in users
+                if (isLoggedIn) {
                     renderAll();
                 }
 
-            }, 2500); // Generate a trade every 2.5 seconds
+            }, 2500);
         });
     </script>
 </body>
 </html>
+
+
 
 
 
