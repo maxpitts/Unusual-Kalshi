@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unusual Kalshi Whales - Real-Time Market Insights</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #020617; /* slate-950 */
+            color: #f8fafc; /* slate-50 */
+        }
+        .btn-primary {
+            background-color: #0891b2; /* cyan-600 */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            background-color: #0e7490; /* cyan-700 */
+        }
+        .form-input {
+             background-color: #1e293b; /* slate-800 */
+             border: 1px solid #334155; /* slate-700 */
+             border-radius: 0.5rem;
+             padding: 0.75rem 1rem;
+             color: white;
+             width: 100%;
+        }
+        .glow-shadow {
+            box-shadow: 0 0 40px rgba(14, 116, 144, 0.4);
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 lg:p-8">
+
+    <div class="container mx-auto max-w-4xl text-center">
+        
+        <header class="my-12">
+            <div class="flex justify-center items-center gap-4">
+                <div class="text-5xl" role="img" aria-label="Whale emoji">🐳</div>
+                <div>
+                    <h1 class="text-4xl font-extrabold text-white">Unusual Kalshi Whales</h1>
+                </div>
+            </div>
+            <h2 class="mt-8 text-5xl md:text-6xl font-extrabold text-white leading-tight">Spot Market-Moving Trades. <br><span class="text-cyan-400">Instantly.</span></h2>
+            <p class="mt-6 text-lg text-slate-300 max-w-2xl mx-auto">Unusual Whales tracks significant orders across Kalshi prediction markets, giving you a real-time edge. Get notified of large, unusual trades before they become news.</p>
+        </header>
+
+        <main>
+            <!-- You can replace this with a screenshot or animated GIF of the app -->
+            <div class="bg-slate-900/70 border-2 border-slate-800 rounded-lg p-4 mb-12 glow-shadow">
+                <img src="https://placehold.co/1200x675/0f172a/94a3b8?text=App+Preview+Screenshot+Here" alt="Preview of the Unusual Kalshi Whales feed" class="rounded-md w-full">
+            </div>
+
+            <div id="signup-section" class="max-w-lg mx-auto">
+                <h3 class="text-2xl font-bold text-white">Be the First to Know</h3>
+                <p class="mt-2 text-slate-400">The live feed is launching soon. Drop your email to get exclusive early access.</p>
+                
+                <!-- This form is ready to be connected to a service like Netlify Forms or Formspree -->
+                <form id="waitlist-form" class="mt-6 flex flex-col sm:flex-row gap-3">
+                    <input type="email" id="email-input" class="form-input flex-grow" placeholder="you@example.com" required>
+                    <button type="submit" class="btn-primary">Get Notified</button>
+                </form>
+                <div id="success-message" class="hidden mt-4 text-green-400">Thanks for signing up! We'll be in touch soon.</div>
+            </div>
+        </main>
+
+        <footer class="mt-20 text-sm text-slate-500">
+            <p>&copy; 2025 Unusual Kalshi Whales. All rights reserved.</p>
+        </footer>
+    </div>
+    <script>
+        document.getElementById('waitlist-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // In a real deployment, you would send the email to your backend or a form service here.
+            // For this demo, we'll just show a success message.
+            document.getElementById('signup-section').innerHTML = `
+                 <div class="text-center p-4 bg-green-500/10 border border-green-700 rounded-lg">
+                    <h3 class="text-xl font-bold text-green-300">You're on the list!</h3>
+                    <p class="text-green-400">Thanks for signing up. We'll email you the moment we go live.</p>
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html>
+

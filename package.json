@@ -1,0 +1,7 @@
+{
+  "name": "unusual-kalshi-whales",
+  "version": "1.0.0",
+  "description": "A web app to track and display unusual trades on the Kalshi market.",
+  "private": true,
+  "author": "Your Name"
+}
